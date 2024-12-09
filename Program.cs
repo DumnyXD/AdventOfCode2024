@@ -57,11 +57,3 @@ public class Program
         return list;
     }
 }
-
-#region Formato lista day1
-//82728   61150
-//39850   94024
-//24609   43406
-//24964   98661
-//16230   17299
-#endregion
