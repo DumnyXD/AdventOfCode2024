@@ -6,7 +6,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        var file = File.ReadAllText("D:\\Codes\\dotnet\\AdventOfCode\\Day1Input.txt");
+        var file = File.ReadAllText("Day1Input.txt");
         var leftList = GetList(file);
         var rightList = GetList(file, true);
         leftList.Sort();
