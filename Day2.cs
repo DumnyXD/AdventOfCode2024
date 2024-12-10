@@ -38,10 +38,10 @@ namespace AdventOfCode
 
         private static bool IsSortedOrDescending(List<int> reactorLevels)
         {
-            var sorted = reactorLevels.OrderBy(n => n).ToList();
-            var descending = reactorLevels.OrderByDescending(n => n).ToList();
-            return reactorLevels.SequenceEqual(sorted) || reactorLevels.SequenceEqual(descending);
+            return reactorLevels.SequenceEqual(reactorLevels.OrderBy(n => n)) ||
+                   reactorLevels.SequenceEqual(reactorLevels.OrderByDescending(n => n));
         }
+
 
         private static bool HasInvalidDifferences(List<int> reactorLevels)
         {

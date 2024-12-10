@@ -8,6 +8,9 @@ public class Program
     {
         try
         {
+            Console.WriteLine(Day1.Part1());
+            Console.WriteLine(Day1.Part2());
+            Console.WriteLine();
             Console.WriteLine(Day2.Part1());
             Console.WriteLine(Day2.Part2());
         }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace AdventOfCode;
 
@@ -11,58 +10,42 @@ public class Day1
     public static int Part1()
     {
         var file = File.ReadAllText("Day1Input.txt");
-        var leftList = GetList(file);
-        var rightList = GetList(file, true);
-        leftList.Sort();
-        rightList.Sort();
+        var leftList = GetListLeft(file).OrderBy(n=>n).ToList();
+        var rightList = GetListRight(file).OrderBy(n => n).ToList();
         return GetSumDistance(leftList, rightList);
     }
 
     public static int Part2()
     {
         var file = File.ReadAllText("Day1Input.txt");
-        var leftList = GetList(file);
-        var rightList = GetList(file, true);
-        leftList.Sort();
-        rightList.Sort();
+        var leftList = GetListLeft(file).OrderBy(n => n).ToList();
+        var rightList = GetListRight(file).OrderBy(n => n).ToList();
         return GetSumFrequence(leftList, rightList);
     }
+
     public static int GetSumFrequence(List<int> leftList, List<int> rightList)
     {
-        int sum = 0;
-        foreach (var item in leftList)
-        {
-            sum += item * rightList.Count(n => n == item);
-        }
-        return sum;
+        var rightFrequency = rightList.GroupBy(n => n)
+                                      .ToDictionary(g => g.Key, g => g.Count());
+        return leftList.Sum(item => item * (rightFrequency.ContainsKey(item) ? rightFrequency[item] : 0));
     }
 
     public static int GetSumDistance(List<int> leftList, List<int> rightList)
     {
-        int sum = 0;
-        for (int i = 0; i < leftList.Count; i++)
-        {
-            sum += Math.Abs(leftList[i] - rightList[i]);
-        }
-        return sum;
+        return leftList.Zip(rightList, (l, r) => Math.Abs(l - r)).Sum();
     }
 
-    public static List<int> GetList(string file, bool right = false)
+    public static List<int> GetListLeft(string file)
     {
-        List<int> list = new();
-        var lines = file.Split("\n");
-        foreach (var line in lines)
-        {
-            var numbers = line.Split("   ");
-            if (right)
-            {
-                list.Add(int.Parse(numbers[1]));
-            }
-            else
-            {
-                list.Add(int.Parse(numbers[0]));
-            }
-        }
-        return list;
+        return file.Split(Environment.NewLine)
+                   .Select(line => int.Parse(line.Split("   ")[0]))
+                   .ToList();
+    }
+
+    public static List<int> GetListRight(string file)
+    {
+        return file.Split(Environment.NewLine)
+                   .Select(line => int.Parse(line.Split("   ")[1]))
+                   .ToList();
     }
 }
